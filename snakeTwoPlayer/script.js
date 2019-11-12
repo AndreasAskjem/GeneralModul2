@@ -14,7 +14,9 @@ let boardView = document.getElementById('snakeTable');
 
 startNewGame();
 function startNewGame(){
-    initSnakePosition();
+    for(let i=0; i<gameState.players; i++){
+        initSnakePosition(i);
+    }
     initBoardModel();
     placeSnake();
     placeApple();
@@ -22,16 +24,28 @@ function startNewGame(){
     gameTick = setInterval(move, gameSpeed);
 }
 
-function initSnakePosition(){
+function initSnakePosition(index){
     snake = {};
     snake.position = [];
-    let startHeight = Math.floor(boardSize.height/2);
-    for(i=startLength; i>0; i--){
-        snake.position.push({y: startHeight, x: i-1});
+    snake.size = gamseState.startLength;
+    if(index===0){
+        let startHeight = Math.floor(gameState.boardSize.height/2);
+        for(i=snake.size; i>0; i--){
+            snake.position.push({y: startHeight, x: i-1});
+        }
+        snake.direction     = {y: 0, x: 1};
+        snake.nextDirection = {y: 0, x: 1}
     }
-    snake.size = startLength;
-    snake.direction     = {y: 0, x: 1};
-    snake.nextDirection = {y: 0, x: 1}
+    if(index===1){
+        let startHeight = Math.ceil(gameState.boardSize.height/2);
+        for(i=snake.size; i>0; i--){
+            snake.position.push({y: startHeight, x: i-1});
+        }
+        snake.direction     = {y: 0, x: -1};
+        snake.nextDirection = {y: 0, x: -1}
+    }
+    model.snakes.push(snake);
+    
 }
 
 function initBoardModel(){
