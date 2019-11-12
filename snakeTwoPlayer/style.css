@@ -1,0 +1,24 @@
+tr, td{
+    border: 0px solid lightgray;
+    height: 30px;
+    width: 30px;
+    user-select: none;
+}
+
+table{
+    border-spacing: 0;
+    border-collapse: collapse;
+    clear: left;
+    border: 2px solid black;
+}
+
+.snakeHead{
+    background-color: black !important;
+}
+.snakeBody{
+    background-color: gray;
+}
+
+.apple{
+    background-color: red;
+}
