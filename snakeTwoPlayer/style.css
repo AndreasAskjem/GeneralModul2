@@ -12,12 +12,20 @@ table{
     border: 2px solid black;
 }
 
-.snakeHead{
-    background-color: black !important;
+.snakeHead0{
+    background-color: blue;
 }
-.snakeBody{
-    background-color: gray;
+.snakeBody0{
+    background-color: lightblue;
 }
+
+.snakeHead1{
+    background-color: green;
+}
+.snakeBody1{
+    background-color: lightgreen;
+}
+
 
 .apple{
     background-color: red;

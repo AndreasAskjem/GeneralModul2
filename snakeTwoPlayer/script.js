@@ -1,4 +1,6 @@
-let model;
+let model = {
+    snakes: []
+};
 
 let gameState = {
     boardSize: {
@@ -17,19 +19,21 @@ function startNewGame(){
     for(let i=0; i<gameState.players; i++){
         initSnakePosition(i);
     }
-    initBoardModel();
-    placeSnake();
+    initBoard();
+    model.snakes.forEach(placeSnake);
     placeApple();
     showBoard();
-    gameTick = setInterval(move, gameSpeed);
+    gameTick = setInterval(move, gameState.speed);
 }
 
 function initSnakePosition(index){
     snake = {};
     snake.position = [];
-    snake.size = gamseState.startLength;
+    snake.size = gameState.startLength;
+    let width = gameState.boardSize.width;
+    let height = gameState.boardSize.height;
     if(index===0){
-        let startHeight = Math.floor(gameState.boardSize.height/2);
+        let startHeight = Math.ceil(height/4);
         for(i=snake.size; i>0; i--){
             snake.position.push({y: startHeight, x: i-1});
         }
@@ -37,47 +41,46 @@ function initSnakePosition(index){
         snake.nextDirection = {y: 0, x: 1}
     }
     if(index===1){
-        let startHeight = Math.ceil(gameState.boardSize.height/2);
-        for(i=snake.size; i>0; i--){
-            snake.position.push({y: startHeight, x: i-1});
+        let startHeight = Math.floor(height*3/4-1);
+        for(i=width-snake.size; i<width; i++){
+            snake.position.push({y: startHeight, x: i});
         }
         snake.direction     = {y: 0, x: -1};
-        snake.nextDirection = {y: 0, x: -1}
+        snake.nextDirection = {y: 0, x: -1};
     }
     model.snakes.push(snake);
-    
 }
 
-function initBoardModel(){
-    boardModel = {};
-    boardModel.rows = [];
+function initBoard(){
+    model.board = {};
+    model.board.rows = [];
 
-    for(rowIndex=0; rowIndex<boardSize.height; rowIndex++){
+    for(rowIndex=0; rowIndex<gameState.boardSize.height; rowIndex++){
         let newRow = {};
         newRow.cells = [];
-        for(cellIndex=0; cellIndex<boardSize.width; cellIndex++){
+        for(cellIndex=0; cellIndex<gameState.boardSize.width; cellIndex++){
             let newCell = {};
             newCell.hasHead = false;
             newCell.hasBody = false;
             newCell.hasApple = false;
             newRow.cells.push(newCell);
         }
-        boardModel.rows.push(newRow);
+        model.board.rows.push(newRow);
     }
 }
 
-function placeSnake(){
+function placeSnake(snake, number){
     for(index in snake.position){
         y = snake.position[index].y;
         x = snake.position[index].x;
         if(index==0){
-            boardModel.rows[y].cells[x].hasHead = true;
-            boardModel.rows[y].cells[x].hasBody = true;
+            model.board.rows[y].cells[x].hasHead = true;
         }
         else{
-            boardModel.rows[y].cells[x].hasHead = false;
-            boardModel.rows[y].cells[x].hasBody = true;
+            model.board.rows[y].cells[x].hasHead = false;
         }
+        model.board.rows[y].cells[x].hasBody = true;
+        model.board.rows[y].cells[x].player = number;
     }
 }
 
@@ -85,20 +88,20 @@ function placeApple(){
     let y;
     let x;
     do{
-        y = Math.floor(Math.random()*boardSize.height);
-        x = Math.floor(Math.random()*boardSize.width);
-    } while(boardModel.rows[y].cells[x].hasBody);
+        y = Math.floor(Math.random()*gameState.boardSize.height);
+        x = Math.floor(Math.random()*gameState.boardSize.width);
+    } while(model.board.rows[y].cells[x].hasBody);
 
-    boardModel.rows[y].cells[x].hasApple = true;
+    model.board.rows[y].cells[x].hasApple = true;
 }
 
 
 function showBoard(){
     boardView.innerHTML = '';
-    for(rowIndex=0; rowIndex<boardSize.height; rowIndex++){
+    for(rowIndex=0; rowIndex<gameState.boardSize.height; rowIndex++){
         let viewRow = boardView.insertRow();
-        let modelRow = boardModel.rows[rowIndex];
-        for(cellIndex=0; cellIndex<boardSize.width; cellIndex++){
+        let modelRow = model.board.rows[rowIndex];
+        for(cellIndex=0; cellIndex<gameState.boardSize.width; cellIndex++){
             let viewCell = viewRow.insertCell();
             let modelCell = modelRow.cells[cellIndex];
 
@@ -106,12 +109,15 @@ function showBoard(){
                 viewCell.classList.add('apple');
             }
             if(modelCell.hasHead){
-                viewCell.classList.add('snakeHead');
+                viewCell.classList.add(`snakeHead${modelCell.player}`);
             }
             else if(modelCell.hasBody){
-                viewCell.classList.add('snakeBody');
+                viewCell.classList.add(`snakeBody${modelCell.player}`);
                 
-                viewCell.classList.remove('snakeHead');
+                try{
+                    viewCell.classList.remove('snakeHead0');
+                    viewCell.classList.remove('snakeHead1');
+                } catch{}
             }
         }
     }
@@ -160,8 +166,8 @@ function move(){
     }
     
     snake.position.splice(0, 0, newHead);
-    if(boardModel.rows[newHead.y].cells[newHead.x].hasApple){
-        boardModel.rows[newHead.y].cells[newHead.x].hasApple = false;
+    if(model.board.rows[newHead.y].cells[newHead.x].hasApple){
+        model.board.rows[newHead.y].cells[newHead.x].hasApple = false;
         snake.size++;
         placeSnake();
         placeApple();
@@ -170,7 +176,7 @@ function move(){
     }
     else{
         let tail = snake.position.splice(snake.size, 1)[0];
-        boardModel.rows[tail.y].cells[tail.x].hasBody = false;
+        model.board.rows[tail.y].cells[tail.x].hasBody = false;
     }
 
     placeSnake();
