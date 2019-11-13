@@ -229,7 +229,7 @@ function moveSnake(snake, index){
     result.crash = checkCrash(snake);
 
     //model.snakes[index] = snake;
-    placeSnake(snake, indexw)
+    placeSnake(snake, index)
     return(result);
 }
 
