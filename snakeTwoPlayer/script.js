@@ -9,7 +9,7 @@ let gameState = {
     },
     players: 2,
     startLength: 3,
-    speed: 200
+    speed: 1000
 }
 let gameTick;
 let boardView = document.getElementById('snakeTable');
@@ -70,7 +70,8 @@ function initBoard(){
 }
 
 function placeSnake(snake, number){
-    for(index in snake.position){
+    //console.log(snake);
+    for(let index in snake.position){
         y = snake.position[index].y;
         x = snake.position[index].x;
         if(index==0){
@@ -124,52 +125,50 @@ function showBoard(){
 }
 
 function controlSnake(e){
-    d = snake.direction;
-
     if(e.keyCode == 13){ // Enter
         stopMove();
         startNewGame();
         return;
     }
 
-    if (e.keyCode == 37 && d.x != 1) { // left
-        snake.nextDirection = { y: 0, x: -1 };
-    } else if (e.keyCode == 39 && d.x != -1) { // right
-        snake.nextDirection = { y: 0, x: 1 };
-    } else if (e.keyCode == 38 && d.y != 1) { // up
-        snake.nextDirection = { y: -1, x: 0 };
-    } else if (e.keyCode == 40 && d.y != -1) { // down
-        snake.nextDirection = { y: 1, x: 0 };
+    d0 = model.snakes[0].direction;
+    if (e.keyCode == 37 && d0.x != 1) { // left
+        model.snakes[0].nextDirection = { y: 0, x: -1 };
+    } else if (e.keyCode == 39 && d0.x != -1) { // right
+        model.snakes[0].nextDirection = { y: 0, x: 1 };
+    } else if (e.keyCode == 38 && d0.y != 1) { // up
+        model.snakes[0].nextDirection = { y: -1, x: 0 };
+    } else if (e.keyCode == 40 && d0.y != -1) { // down
+        model.snakes[0].nextDirection = { y: 1, x: 0 };
+    }
+
+    d1 = model.snakes[1].direction;
+    if (e.keyCode == 65 && d1.x != 1) { // left
+        model.snakes[1].nextDirection = { y: 0, x: -1 };
+    } else if (e.keyCode == 68 && d1.x != -1) { // right
+        model.snakes[1].nextDirection = { y: 0, x: 1 };
+    } else if (e.keyCode == 87 && d1.y != 1) { // up
+        model.snakes[1].nextDirection = { y: -1, x: 0 };
+    } else if (e.keyCode == 83 && d1.y != -1) { // down
+        model.snakes[1].nextDirection = { y: 1, x: 0 };
     }
 }
 
 function move(){
+    model.snakes.forEach(moveSnake);
+}
+
+function moveSnake(snake, index){
     let head = snake.position[0];
     snake.direction = checkDirection(snake.direction, snake.nextDirection);
     d = snake.direction;
     let newHead = {y: head.y + d.y, x: head.x + d.x}
-
-    //// Crash test
-    // Crash with wall
-    if(newHead.y < 0 || newHead.y >= boardSize.height || newHead.x < 0 || newHead.x >= boardSize.width){
-        stopMove();
-        alert(`You crashed with the wall and ate ${snake.size-startLength} apples!`);
-        return;
-    }
-    // Crash with self
-    for(part=1; part<snake.size; part++){
-        if(newHead.x == snake.position[part].x && newHead.y == snake.position[part].y){
-            stopMove();
-            alert(`You crashed with yourself and ate ${snake.size-startLength} apples!`);
-            return;
-        }
-    }
-    
+    //console.log(snake);
     snake.position.splice(0, 0, newHead);
     if(model.board.rows[newHead.y].cells[newHead.x].hasApple){
         model.board.rows[newHead.y].cells[newHead.x].hasApple = false;
         snake.size++;
-        placeSnake();
+        placeSnake(snake, index);
         placeApple();
         showBoard();
         return;
@@ -178,8 +177,28 @@ function move(){
         let tail = snake.position.splice(snake.size, 1)[0];
         model.board.rows[tail.y].cells[tail.x].hasBody = false;
     }
+    model.snakes[index] = snake;
 
-    placeSnake();
+    console.log(`Snake: ${index}
+Position: ${newHead.x},${newHead.y}`);
+    //// Crash test
+    // Crash with wall
+    if(newHead.y < 0 || newHead.y >= gameState.boardSize.height || newHead.x < 0 || newHead.x >= gameState.boardSize.width){
+        stopMove();
+        console.log('it should have stopped');
+        alert(`Player ${index} crashed with the wall and ate ${model.snakes[index].size-gameState.startLength} apples!`);
+        return;
+    }
+    // Crash with self
+    for(part=1; part<snake.size; part++){
+        if(newHead.x == snake.position[part].x && newHead.y == snake.position[part].y){
+            stopMove();
+            alert(`Player ${index} crashed with themselves and ate ${model.snakes[index].size-gameState.startLength} apples!`);
+            return;
+        }
+    }
+
+    placeSnake(snake, index);
     showBoard();
 }
 
