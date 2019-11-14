@@ -5,11 +5,11 @@ let model = {
 let gameState = {
     boardSize: {
         height: 10,
-        width: 11
+        width: 10
     },
     players: 2,
     startLength: 3,
-    speed: 1000
+    speed: 300
 }
 let gameTick;
 let boardView = document.getElementById('snakeTable');
