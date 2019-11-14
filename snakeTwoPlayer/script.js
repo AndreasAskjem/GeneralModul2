@@ -23,9 +23,9 @@ function startNewGame(){
         initSnakePosition(i);
     }
     model.snakes.forEach(placeSnake);
+    winnerTxt = '';
     placeApple();
     showBoard();
-    winnerTxt = '';
     gameTick = setInterval(move, gameState.speed);
 }
 
@@ -129,6 +129,7 @@ function showBoard(){
         }
     }
     model.snakes.forEach(updateScore);
+    document.getElementById('winner').innerHTML = winnerTxt;
 }
 
 function updateScore(snake, index){
