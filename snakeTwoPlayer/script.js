@@ -176,13 +176,21 @@ function controlSnake(e){
 function move(){
     let result = []
     for(let snake=0; snake<gameState.players; snake++){
-        //console.log(model.snakes[snake])
         result.push(moveSnake(model.snakes[snake], snake));
     }
-    //console.log(result)
 
     result.forEach(s => {if(s.ateApple){placeApple()}})
 
+    // Marks both snakes as crashed if their heads move into the same area at the same time.
+    for(let i=0; i<gameState.players-1; i++){
+        for(let j=i+1; j<gameState.players; j++){
+            if(result[i].head.x===result[j].head.x && result[i].head.y===result[j].head.y){
+                result[i].crashed = true;
+                result[j].crashed = true;
+            }
+        }
+    }
+    
     let listOfCrashes = result.map(p => p.crashed);
     let livingSnakes = 0;
     for(let i=0; i<gameState.players; i++){
@@ -190,18 +198,17 @@ function move(){
             livingSnakes++;
         }
     }
+
     
     let winner;
     if(livingSnakes===1){
         let colors = ['Blue', 'Green']
         winner = listOfCrashes.indexOf(false);
-        //console.log(`${colors[winner]} won!`);
         winnerTxt = `${colors[winner]} won!`;
         stopMove();
         return;
     }
     else if(livingSnakes===0){
-        //console.log("It's a tie!");
         winnerTxt = `It's a tie!`;
         stopMove();
         return;
@@ -216,9 +223,11 @@ function moveSnake(snake, index){
     snake.direction = checkDirection(snake.direction, snake.nextDirection);
     d = snake.direction;
     let newHead = {y: head.y + d.y, x: head.x + d.x}
+    result.head = newHead;
 
     if(checkCrashWithWall(newHead)){
-        return({crashed: true, ateApple: false});
+        result.crashed = true;
+        return(result);
     }
 
     snake.position.splice(0, 0, newHead);
@@ -235,7 +244,8 @@ function moveSnake(snake, index){
     }
 
     if(checkCrashWithSnake(newHead)){
-        return({crashed: true, ateApple: false});
+        result.crashed = true;
+        return(result);
     }
 
     placeSnake(snake, index)

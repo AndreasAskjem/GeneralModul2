@@ -45,3 +45,11 @@ table{
     font-weight: bold;
     float: left;
 }
+#winner{
+    float: left;
+    height: 30px;
+    width: 200px;
+    font-size: 25px;
+    font-weight: bold;
+    border: 5px solid white;
+}
