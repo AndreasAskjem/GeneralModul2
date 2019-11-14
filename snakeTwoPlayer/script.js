@@ -13,6 +13,7 @@ let gameState = {
 }
 let gameTick;
 let boardView = document.getElementById('snakeTable');
+let winnerTxt = '';
 
 startNewGame();
 function startNewGame(){
@@ -24,6 +25,7 @@ function startNewGame(){
     model.snakes.forEach(placeSnake);
     placeApple();
     showBoard();
+    winnerTxt = '';
     gameTick = setInterval(move, gameState.speed);
 }
 
@@ -126,7 +128,13 @@ function showBoard(){
             }
         }
     }
+    model.snakes.forEach(updateScore);
 }
+
+function updateScore(snake, index){
+    document.getElementById(`score${index}`).innerHTML = snake.size - gameState.startLength;
+}
+
 
 function controlSnake(e){
     if(e.keyCode == 13){ // Enter
@@ -165,16 +173,6 @@ function controlSnake(e){
 }
 
 
-////////////////////////////////////////////
-/*
-Order of move events:
-    move snake 1 (grow?)
-    move snake 2 (grow?)
-    crash ? stopMove : continue
-    ateApple ? placeApple : continue
-    showBoard()
-*/
-
 function move(){
     let result = []
     for(let snake=0; snake<gameState.players; snake++){
@@ -197,12 +195,14 @@ function move(){
     if(livingSnakes===1){
         let colors = ['Blue', 'Green']
         winner = listOfCrashes.indexOf(false);
-        console.log(`${colors[winner]} won!`);
+        //console.log(`${colors[winner]} won!`);
+        winnerTxt = `${colors[winner]} won!`;
         stopMove();
         return;
     }
     else if(livingSnakes===0){
-        console.log("It's a tie!");
+        //console.log("It's a tie!");
+        winnerTxt = `It's a tie!`;
         stopMove();
         return;
     }
@@ -256,9 +256,6 @@ function checkCrashWithSnake(head){
     return(false);
 }
 
-//////////////////////////////////////////
-
-
 function checkDirection(d, nd){ // (direction, nextDirection)
     if(d.x != 0 && nd.x == 0 || d.x == 0 && nd.x != 0){
         return(nd);
@@ -269,64 +266,5 @@ function checkDirection(d, nd){ // (direction, nextDirection)
 
 function stopMove(){
     clearInterval(gameTick);
+    document.getElementById('winner').innerHTML = winnerTxt;
 }
-
-
-// Possible model setup.
-/*
-let model = {
-    boardSize: {
-        height: 10,
-        width: 10
-    },
-    board: {
-        0: {
-            0: {
-                hasApple: false,
-                hasBody1: false,
-                hasHead1: false,
-                hasBody2: false,
-                hasHead2: false
-            },
-            1: {
-                adawd: 'has stuff'
-            }
-        },
-        1: {
-            row: 'has cells'
-        }
-    },
-    snakes: [
-        {
-            position: [
-                {
-                    x: 3,
-                    y: 3
-                },
-                {
-                    x: 4,
-                    y: 3
-                }
-            ],
-            size: 3,
-            direction: {y: 0, x:1},
-            nextDirection: {y: 0, x: 1}
-        },
-        {
-            position: [
-                {
-                    x: 8,
-                    y: 4
-                },
-                {
-                    x: 7,
-                    y: 4
-                }
-            ],
-            size: 3,
-            direction: {y: 0, x: -1},
-            nextDirection: {y: 0, x: 1}
-        }
-    ]
-}
-*/
