@@ -9,6 +9,8 @@ let gameState = {
     },
     players: 2,
     startLength: 3,
+    winningScore: 20,
+    numberOfApples: 1,
     speed: 300
 }
 let gameTick;
@@ -24,7 +26,10 @@ function startNewGame(){
     }
     model.snakes.forEach(placeSnake);
     winnerTxt = '';
-    placeApple();
+    for(let i=0; i<gameState.numberOfApples; i++){
+        placeApple();
+    }
+    
     showBoard();
     gameTick = setInterval(move, gameState.speed);
 }
@@ -97,7 +102,7 @@ function placeApple(){
     do{
         y = Math.floor(Math.random()*gameState.boardSize.height);
         x = Math.floor(Math.random()*gameState.boardSize.width);
-    } while(model.board.rows[y].cells[x].hasBody);
+    } while(model.board.rows[y].cells[x].hasBody && model.board.rows[y].cells[x].hasApple);
 
     model.board.rows[y].cells[x].hasApple = true;
 }
@@ -200,10 +205,19 @@ function move(){
         }
     }
 
-    
+    let colors = ['Blue', 'Green'];
+    for(let i=0; i<gameState.players; i++){
+        if(result[i].points >= gameState.winningScore){
+            winnerTxt = `${colors[i]} won!`;
+            showBoard();
+            stopMove();
+            return;
+        }
+    }
+
     let winner;
     if(livingSnakes===1){
-        let colors = ['Blue', 'Green']
+        
         winner = listOfCrashes.indexOf(false);
         winnerTxt = `${colors[winner]} won!`;
         stopMove();
@@ -225,7 +239,7 @@ function moveSnake(snake, index){
     d = snake.direction;
     let newHead = {y: head.y + d.y, x: head.x + d.x}
     result.head = newHead;
-
+    result.points = snake.position.length - gameState.startLength;
     if(checkCrashWithWall(newHead)){
         result.crashed = true;
         return(result);
@@ -235,6 +249,7 @@ function moveSnake(snake, index){
     if(model.board.rows[newHead.y].cells[newHead.x].hasApple){
         model.board.rows[newHead.y].cells[newHead.x].hasApple = false;
         snake.size++;
+        result.points++;
         result.ateApple = true;
     }
     else{
