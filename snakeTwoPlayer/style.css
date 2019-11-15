@@ -53,3 +53,19 @@ table{
     font-weight: bold;
     border: 5px solid white;
 }
+
+
+/* wrapper */
+
+#wrapper{
+    display: grid;
+    grid-template-columns: 1fr auto auto 1fr;
+    grid-template-areas: '. game options .';
+}
+
+#game{
+    grid-area: game;
+}
+#options{
+    grid-area: options;
+}

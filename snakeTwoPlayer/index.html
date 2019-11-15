@@ -4,17 +4,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Snake</title>
-
+    
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body onkeydown="return controlSnake(event)">
+<div id="wrapper">
+    <div id="game">
+        <table id="snakeTable"></table>
+        <div id="score0" class="scoreBox"></div>
+        <div id="score1" class="scoreBox"></div>
+        <div id="winner"></div>
+    </div>
 
-    <table id="snakeTable"></table>
-    <div id="score0" class="scoreBox"></div>
-    <div id="score1" class="scoreBox"></div>
-    <div id="winner"></div>
+    <div id="options">
+        <button type="button" onclick="startGame()">Start Game</button>
+    </div>
+</div>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
+<script src="settingsInput.js"></script>
 </body>
 </html>

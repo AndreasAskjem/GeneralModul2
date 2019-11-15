@@ -11,14 +11,15 @@ let gameState = {
     startLength: 3,
     winningScore: 20,
     numberOfApples: 1,
-    speed: 300
+    speed: 300,
+    ongoing: false
 }
 let gameTick;
 let boardView = document.getElementById('snakeTable');
 let winnerTxt = '';
 
-startNewGame();
-function startNewGame(){
+initNewGame();
+function initNewGame(){
     initBoard();
     model.snakes = [];
     for(let i=0; i<gameState.players; i++){
@@ -31,7 +32,6 @@ function startNewGame(){
     }
     
     showBoard();
-    gameTick = setInterval(move, gameState.speed);
 }
 
 function initSnakePosition(index){
@@ -147,7 +147,7 @@ function updateScore(snake, index){
 function controlSnake(e){
     if(e.keyCode == 13){ // Enter
         stopMove();
-        startNewGame();
+        initNewGame();
         return;
     }
 
