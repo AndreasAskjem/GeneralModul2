@@ -99,10 +99,12 @@ function placeSnake(snake, number){
 function placeApple(){
     let y;
     let x;
+    let cell;
     do{
         y = Math.floor(Math.random()*gameState.boardSize.height);
         x = Math.floor(Math.random()*gameState.boardSize.width);
-    } while(model.board.rows[y].cells[x].hasBody && model.board.rows[y].cells[x].hasApple);
+        cell = model.board.rows[y].cells[x];
+    } while(cell.hasBody || cell.hasHead || cell.hasApple);
 
     model.board.rows[y].cells[x].hasApple = true;
 }
