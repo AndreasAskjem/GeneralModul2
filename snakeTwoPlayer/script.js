@@ -98,6 +98,7 @@ function placeSnake(snake, number){
 }
 
 function placeApple(){
+    // Return if more than x% of board is filled
     let y;
     let x;
     let cell;
@@ -138,6 +139,8 @@ function showBoard(){
     }
     model.snakes.forEach(updateScore);
     document.getElementById('winner').innerHTML = winnerTxt;
+
+    /////////// Change visiible point boxes depending on number of players
 }
 
 function updateScore(snake, index){
@@ -221,7 +224,7 @@ function move(){
     }
 
     let winner;
-    if(livingSnakes===1){
+    if(livingSnakes===1 && gameState.players>1){
         winner = listOfCrashes.indexOf(false);
         winnerTxt = `${colors[winner]} won!`;
         stopMove();
@@ -266,7 +269,7 @@ function moveSnake(snake, index){
     if(checkCrashWithSnake(newHead)){
         result.crashed = true;
         return(result);
-    }
+    } //////////////////////////// Fix tail collision
 
     placeSnake(snake, index)
     return(result);
