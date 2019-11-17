@@ -18,6 +18,33 @@
     </div>
 
     <div id="options">
+        <div id="optionText">Level Size:</div>
+        <select id="sizeSelect" onchange="changeSize(this)">
+            <option value="10">Small (10x10)</option>
+            <option value="15">Medium (15x15)</option>
+            <option value="20">Large (20x20)</option>
+        </select>
+        <div id="optionText">Number of apples:</div>
+        <select id="appleSelect" onchange="changeApples(this)">
+            <option value="1">1 Apple</option>
+            <option value="5">5 Apple</option>
+            <option value="20">20 Apple</option>
+            <option value="50">50 Apple</option>
+        </select>
+        <div id="optionText">Speed:</div>
+        <select id="speedSelect" onchange="changeSpeed(this)">
+            <option value="800">Slow</option>
+            <option value="400" selected="selected">Medium</option>
+            <option value="200">Fast</option>
+            <option value="100">Lightning</option>
+        </select>
+        <div id="optionText">Points to Win:</div>
+        <select id="speedSelect" onchange="changeWinCondition(this)">
+            <option value="10">10 Points</option>
+            <option value="20" selected="selected">20 Points</option>
+            <option value="50">100 Points</option>
+            <option value="999999">No Limit</option>
+        </select>
         <button type="button" onclick="startGame()">Start Game</button>
     </div>
 </div>

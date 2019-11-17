@@ -11,7 +11,7 @@ let gameState = {
     startLength: 3,
     winningScore: 20,
     numberOfApples: 1,
-    speed: 300,
+    speed: 400,
     ongoing: false
 }
 let gameTick;
@@ -22,6 +22,7 @@ initNewGame();
 function initNewGame(){
     initBoard();
     model.snakes = [];
+    gameState.ongoing = false;
     for(let i=0; i<gameState.players; i++){
         initSnakePosition(i);
     }
