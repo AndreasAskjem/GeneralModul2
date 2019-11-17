@@ -166,19 +166,21 @@ function controlSnake(e){
         model.snakes[0].nextDirection = { y: 1, x: 0 };
     }
 
-    d1 = model.snakes[1].direction;
-    if (e.keyCode == 65 && d1.x != 1) { // left
-        model.snakes[1].nextDirection = { y: 0, x: -1 };
-    }
-    if (e.keyCode == 68 && d1.x != -1) { // right
-        model.snakes[1].nextDirection = { y: 0, x: 1 };
-    }
-    if (e.keyCode == 87 && d1.y != 1) { // up
-        model.snakes[1].nextDirection = { y: -1, x: 0 };
-    }
-    if (e.keyCode == 83 && d1.y != -1) { // down
-        model.snakes[1].nextDirection = { y: 1, x: 0 };
-    }
+    try{
+        d1 = model.snakes[1].direction;
+        if (e.keyCode == 65 && d1.x != 1) { // left
+            model.snakes[1].nextDirection = { y: 0, x: -1 };
+        }
+        if (e.keyCode == 68 && d1.x != -1) { // right
+            model.snakes[1].nextDirection = { y: 0, x: 1 };
+        }
+        if (e.keyCode == 87 && d1.y != 1) { // up
+            model.snakes[1].nextDirection = { y: -1, x: 0 };
+        }
+        if (e.keyCode == 83 && d1.y != -1) { // down
+            model.snakes[1].nextDirection = { y: 1, x: 0 };
+        }
+    } catch{}
 }
 
 
@@ -220,7 +222,6 @@ function move(){
 
     let winner;
     if(livingSnakes===1){
-        
         winner = listOfCrashes.indexOf(false);
         winnerTxt = `${colors[winner]} won!`;
         stopMove();
