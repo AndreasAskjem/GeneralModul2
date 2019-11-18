@@ -37,13 +37,18 @@ function controlSnake(e){
     } catch{}
 }
 
-
+let listOfTails = undefined;
 function move(){
     let result = []
+    
     for(let snake=0; snake<gameState.players; snake++){
+        if(snake===0){
+            listOfTails = undefined;
+        }
         result.push(moveSnake(model.snakes[snake], snake));
     }
-
+    listOfTails = result.map(s => s.lastTail)//////////////////
+    console.log(listOfTails)
     result.forEach(s => {if(s.ateApple){placeApple()}})
 
     // Marks both snakes as crashed if their heads move into the same area at the same time.
@@ -53,16 +58,6 @@ function move(){
                 result[i].crashed = true;
                 result[j].crashed = true;
             }
-        }
-    }
-    console.log(result[0].lastTail, result[1].lastTail)
-    for(let i=0; i<gameState.players; i++){
-        for(let j=0; j<gameState.players; j++){
-            try{
-                if(result[i].head.x===result[j].lastTail.x && result[i].head.y===lastTail[j].lastTail.y){
-                    result[i].crashed = false;
-                }
-            } catch{console.log(result[i])}
         }
     }
     
@@ -102,11 +97,9 @@ function move(){
 
 function moveSnake(snake, index){
     let head = snake.position[0];
+
     let result = {ateApple: false, crashed: false};
-
-    // Doesn't quite work. Often undefined?
     result.lastTail = snake.position[snake.position.length-1];
-
     snake.direction = checkDirection(snake.direction, snake.nextDirection);
     d = snake.direction;
 
@@ -128,8 +121,8 @@ function moveSnake(snake, index){
     else{
         let tail = snake.position.splice(snake.size, 1)[0];
         model.board.rows[tail.y].cells[tail.x].hasBody = false;
-        model.board.rows[tail.y].cells[tail.x].anyBody = false
-        result.ateApple = false
+        model.board.rows[tail.y].cells[tail.x].anyBody = false;
+        result.ateApple = false;
     }
 
     if(checkCrashWithSnake(newHead)){
