@@ -55,6 +55,16 @@ function move(){
             }
         }
     }
+
+    for(let i=0; i<gameState.players; i++){
+        for(let j=0; j<gameState.players; j++){
+            try{
+                if(result[i].head.x===result[j].lastTail.x && result[i].head.y===lastTail[j].lastTail.y){
+                    result[i].crashed = false;
+                }
+            } catch{console.log('aa')}
+        }
+    }
     
     let listOfCrashes = result.map(p => p.crashed);
     let livingSnakes = 0;
@@ -93,9 +103,13 @@ function move(){
 function moveSnake(snake, index){
     let head = snake.position[0];
     let result = {ateApple: false, crashed: false};
-    //result.lastTail = snake.position[]
+
+    // Doesn't quite work. Often undefined?
+    result.lastTail = snake.position[snake.position.length-1];
+
     snake.direction = checkDirection(snake.direction, snake.nextDirection);
     d = snake.direction;
+
     let newHead = {y: head.y + d.y, x: head.x + d.x}
     result.head = newHead;
     result.points = snake.position.length - gameState.startLength;
