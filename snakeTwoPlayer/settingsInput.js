@@ -1,8 +1,39 @@
+let count = 3;
 function startGame(){
-    if(gameState.ongoing === false){
-        gameTick = setInterval(move, gameState.speed);
+    toggleOptions(true);
+    initNewGame();
+    
+    count = 3;
+    if(gameState.running === 'no'){
+        gameState.running = 'countdown';
+        document.getElementById('overlay').classList.remove('hide');
+        countdown();
     }
-    gameState.ongoing = true;
+    
+    gameState.running = 'yes';
+}
+
+function toggleOptions(onOrOff){
+    let options = document.getElementById('options').querySelectorAll('.input');
+    options.forEach(option => option.disabled = onOrOff)
+}
+
+
+function countdown(){
+    document.getElementById('countdown').innerHTML = count;
+    if(count>0){
+        count--;
+        setTimeout(countdown, 500);
+        return;
+    }
+    gameTick = setInterval(move, gameState.speed);
+    document.getElementById('overlay').classList.add('hide');
+}
+
+function changeNumberOfPlayers(element){
+    let newValue = parseInt(element.value);
+    gameState.players = newValue;
+    initNewGame();
 }
 
 function changeSize(element){
@@ -21,12 +52,10 @@ function changeApples(element){
 function changeSpeed(element){
     let newValue = parseInt(element.value);
     gameState.speed = newValue;
-    initNewGame();
 }
 
 changeWinCondition
 function changeWinCondition(element){
     let newValue = parseInt(element.value);
     gameState.winningScore = newValue;
-    initNewGame();
 }

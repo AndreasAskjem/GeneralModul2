@@ -1,7 +1,7 @@
 tr, td{
     border: 0px solid lightgray;
     height: 30px;
-    width: 30px;
+    width: 100%;
     user-select: none;
 }
 
@@ -9,7 +9,7 @@ table{
     border-spacing: 0;
     border-collapse: collapse;
     clear: left;
-    border: 2px solid black;
+    border: 5px solid black;
 }
 
 .snakeHead0{
@@ -36,6 +36,12 @@ table{
 }
 #score1{
     border: 5px solid green
+}
+#score2{
+    border: 5px solid DarkKhaki
+}
+#score3{
+    border: 5px solid purple
 }
 .scoreBox{
     width: 30px;
@@ -65,11 +71,12 @@ table{
 }
 
 #game{
+    position: relative;
     grid-area: game;
 }
 
 #options{
-    padding-left: 20px;
+    padding-left: 15px;
     background: lightyellow;
     grid-area: options;
 }
@@ -77,8 +84,29 @@ table{
 
 #options * {
     float: left;
-    width: 120px;
+    width: 130px;
 }
+
 #options div, button{
-    margin-top: 10px;
+    margin-top: 15px;
+}
+
+#overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+#countdown {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.4);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 150px;
+}
+
+.hide{
+    display: none !important;
 }

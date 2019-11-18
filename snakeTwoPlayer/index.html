@@ -11,45 +11,60 @@
 <body onkeydown="return controlSnake(event)">
 <div id="wrapper">
     <div id="game">
+        <div id="overlay" class="hide">
+            <div id="countdown">3</div>
+        </div>
         <table id="snakeTable"></table>
         <div id="score0" class="scoreBox"></div>
         <div id="score1" class="scoreBox"></div>
+        <div id="score2" class="scoreBox"></div>
+        <div id="score3" class="scoreBox"></div>
         <div id="winner"></div>
     </div>
 
     <div id="options">
+        <div id="optionText">Number of Players:</div>
+        <select class="input" onchange="changeNumberOfPlayers(this)">
+            <option value="1">1 player</option>
+            <option value="2" selected="selected">2 players</option>
+            <!--
+            <option value="3">3 players</option>
+            <option value="4">4 players</option>
+            -->
+        </select>
         <div id="optionText">Level Size:</div>
-        <select onchange="changeSize(this)">
+        <select class="input" onchange="changeSize(this)">
             <option value="10">Small (10x10)</option>
             <option value="15">Medium (15x15)</option>
             <option value="20">Large (20x20)</option>
         </select>
-        <div id="optionText">Number of apples:</div>
-        <select onchange="changeApples(this)">
+        <div id="optionText">Number of Apples:</div>
+        <select class="input" onchange="changeApples(this)">
             <option value="1">1 Apple</option>
             <option value="5">5 Apples</option>
             <option value="20">20 Apples</option>
             <option value="50">50 Apples</option>
         </select>
         <div id="optionText">Speed:</div>
-        <select onchange="changeSpeed(this)">
+        <select class="input" onchange="changeSpeed(this)">
             <option value="800">Slow</option>
             <option value="400" selected="selected">Medium</option>
             <option value="200">Fast</option>
             <option value="100">Lightning</option>
         </select>
         <div id="optionText">Points to Win:</div>
-        <select onchange="changeWinCondition(this)">
+        <select class="input" onchange="changeWinCondition(this)">
             <option value="10">10 Points</option>
             <option value="20" selected="selected">20 Points</option>
             <option value="100">100 Points</option>
             <option value="999999">No Limit</option>
         </select>
-        <button type="button" onclick="startGame()">Start Game</button>
+        <button class="input" type="button" onclick="startGame()">Start Game</button>
     </div>
 </div>
 
 <script src="script.js"></script>
 <script src="settingsInput.js"></script>
+<script src="controller.js"></script>
 </body>
 </html>
