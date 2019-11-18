@@ -55,14 +55,14 @@ function move(){
             }
         }
     }
-
+    console.log(result[0].lastTail, result[1].lastTail)
     for(let i=0; i<gameState.players; i++){
         for(let j=0; j<gameState.players; j++){
             try{
                 if(result[i].head.x===result[j].lastTail.x && result[i].head.y===lastTail[j].lastTail.y){
                     result[i].crashed = false;
                 }
-            } catch{console.log('aa')}
+            } catch{console.log(result[i])}
         }
     }
     
