@@ -37,6 +37,19 @@ function controlSnake(e){
     } catch{}
 }
 
+/*
+Order of events
+Go through each part for every snake, instead of every part for each snake
+Find next head positoins (check crash with wall?) -> return list
+Eat apples -> Remove tail or not
+Check collisions with wall
+Check collision with snakes
+If crashed -> remove
+Insert head, placeSnake()
+
+Check winners and such
+*/
+
 let listOfTails = undefined;
 function move(){
     let result = []
