@@ -50,6 +50,48 @@ Insert head, placeSnake()
 Check winners and such
 */
 
+/////////////////
+/*
+function move(){
+    let result = [];
+
+    model.snake.forEach((snake, i) => {
+        result[i] = {};
+        result[i].head = nextHeadPosition(snake);
+        result[i].crashed = checkCrashWithWall(result[i].head, i)
+    })
+    model.snake.forEach((snake, i) => {
+        result[i].ateApple.push(ateApple(result[i].head));
+    })
+    model.snake.forEach(snake, i) => {
+        if(!result[i].ateApple){
+            removeTail(snake);
+        }
+    }
+}
+
+function newHeadPosition(snake){
+    let head = snake.position[0];
+    snake.direction = checkDirection(snake.direction, snake.nextDirection);
+    let d = snake.direction;
+
+    let newHeadPosition = {y: head.y + d.y, x: head.x + d.x};
+    return(newHeadPosition);
+}
+
+function ateApple(head, i){
+    model.snakes[i].size++;
+    return(model.board.rows[head.y].cells[head.x].hasApple); 
+}
+
+function removdTail(snake){
+    let tail = snake.position.splice(snake.size, 1)[0];
+    model.board.rows[tail.y].cells[tail.x].hasBody = false;
+    model.board.rows[tail.y].cells[tail.x].anyBody = false;
+}
+*/
+///////////////////
+
 let listOfTails = undefined;
 function move(){
     let result = []
@@ -61,7 +103,7 @@ function move(){
         result.push(moveSnake(model.snakes[snake], snake));
     }
     listOfTails = result.map(s => s.lastTail)//////////////////
-    console.log(listOfTails)
+    //console.log(listOfTails)
     result.forEach(s => {if(s.ateApple){placeApple()}})
 
     // Marks both snakes as crashed if their heads move into the same area at the same time.
@@ -81,7 +123,7 @@ function move(){
             livingSnakes++;
         }
     }
-
+    console.log(result);
     let colors = ['Blue', 'Green'];
     for(let i=0; i<gameState.players; i++){
         if(result[i].points >= gameState.winningScore){
@@ -114,7 +156,7 @@ function moveSnake(snake, index){
     let result = {ateApple: false, crashed: false};
     result.lastTail = snake.position[snake.position.length-1];
     snake.direction = checkDirection(snake.direction, snake.nextDirection);
-    d = snake.direction;
+    let d = snake.direction;
 
     let newHead = {y: head.y + d.y, x: head.x + d.x}
     result.head = newHead;
