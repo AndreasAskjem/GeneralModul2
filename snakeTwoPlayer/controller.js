@@ -51,26 +51,85 @@ Check winners and such
 */
 
 /////////////////
-/*
+
 function move(){
     let result = [];
 
-    model.snake.forEach((snake, i) => {
+    model.snakes.forEach((snake, i) => {
         result[i] = {};
         result[i].head = nextHeadPosition(snake);
         result[i].crashed = checkCrashWithWall(result[i].head, i)
     })
-    model.snake.forEach((snake, i) => {
-        result[i].ateApple.push(ateApple(result[i].head));
+    model.snakes.forEach((snake, i) => {
+        //if(result[i])
+        result[i].ateApple = ateApple(result[i].head, i);
     })
-    model.snake.forEach(snake, i) => {
-        if(!result[i].ateApple){
-            removeTail(snake);
+    model.snakes.forEach((snake, i) => {
+        if(!result[i].ateApple && !result[i].crashed){
+            removeTail(snake, i);
+        }
+    })
+    model.snakes.forEach((snake, i) => {
+        result[i].crashed = checkCrashWithSnake(result[i].head) || result[i].crashed;
+    })
+
+    for(let i=0; i<gameState.players-1; i++){
+        for(let j=i+1; j<gameState.players; j++){
+            if(result[i].head.x===result[j].head.x && result[i].head.y===result[j].head.y){
+                result[i].crashed = true;
+                result[j].crashed = true;
+            }
         }
     }
+
+
+    let listOfCrashes = result.map(s => s.crashed);
+    let livingSnakes = 0;
+    for(let i=0; i<gameState.players; i++){
+        if(!result[i].crashed){
+            livingSnakes++;
+        }
+    }
+    //console.log(result);
+    let colors = ['Blue', 'Green'];
+    for(let i=0; i<gameState.players; i++){
+        if(result[i].points >= gameState.winningScore){
+            winnerTxt = `${colors[i]} won!`;
+            showBoard();
+            stopMove();
+            return;
+        }
+    }
+    let winner;
+    if(livingSnakes===1 && gameState.players>1){
+        winner = listOfCrashes.indexOf(false);
+        winnerTxt = `${colors[winner]} won!`;
+        stopMove();
+        return;
+    }
+    else if(livingSnakes===0){
+        winnerTxt = `It's a tie!`;
+        stopMove();
+        return;
+    }
+
+    model.snakes.forEach((snake, i) => {
+        if(!result[i].crashed){
+            snake.position.splice(0, 0, result[i].head);
+        }
+    })
+
+    model.snakes.forEach((snake, i) => {
+        if(!result[i].crashed){
+            placeSnake(snake, i);
+        }
+    })
+
+    result.forEach(s => {if(s.ateApple){placeApple()}})
+    showBoard();
 }
 
-function newHeadPosition(snake){
+function nextHeadPosition(snake){
     let head = snake.position[0];
     snake.direction = checkDirection(snake.direction, snake.nextDirection);
     let d = snake.direction;
@@ -80,18 +139,22 @@ function newHeadPosition(snake){
 }
 
 function ateApple(head, i){
-    model.snakes[i].size++;
-    return(model.board.rows[head.y].cells[head.x].hasApple); 
+    if(model.board.rows[head.y].cells[head.x].hasApple){
+        model.board.rows[head.y].cells[head.x].hasApple = false;
+        model.snakes[i].size++;
+        return(true)
+    }
+    return(false); 
 }
 
-function removdTail(snake){
-    let tail = snake.position.splice(snake.size, 1)[0];
+function removeTail(snake, i){
+    let tail = snake.position.splice(snake.size -1, 1)[0];
     model.board.rows[tail.y].cells[tail.x].hasBody = false;
     model.board.rows[tail.y].cells[tail.x].anyBody = false;
 }
-*/
-///////////////////
 
+///////////////////
+/*
 let listOfTails = undefined;
 function move(){
     let result = []
@@ -149,6 +212,7 @@ function move(){
 
     showBoard();
 }
+*/
 
 function moveSnake(snake, index){
     let head = snake.position[0];
@@ -185,7 +249,7 @@ function moveSnake(snake, index){
         return(result);
     } //////////////////////////// Fix tail collision
 
-    placeSnake(snake, index)
+    placeSnake(snake, index);
     return(result);
 }
 
