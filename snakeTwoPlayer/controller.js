@@ -66,51 +66,51 @@ function move(){
     model.snakes.forEach((snake, i) => {
         result[i] = {};
         result[i].head = nextHeadPosition(snake);
-        result[i].crashed = checkCrashWithWall(result[i].head, i)
+        snake.alive = checkCrashWithWall(result[i].head, i)
     })
     model.snakes.forEach((snake, i) => {
-        if(!result[i].crashed){
+        if(snake.alive){
             result[i].ateApple = ateApple(result[i].head, i);
         }
     })
     model.snakes.forEach((snake, i) => {
-        if(!result[i].ateApple && !result[i].crashed){
+        if(!result[i].ateApple && snake.alive){
             removeTail(snake, i);
         }
     })
     model.snakes.forEach((snake, i) => {
-        if(!result[i].crashed){
-            result[i].crashed = checkCrashWithSnake(result[i].head);
+        if(snake.alive){
+            snake.alive = checkCrashWithSnake(result[i].head);
         }
     })
 
     for(let i=0; i<gameState.players-1; i++){
         for(let j=i+1; j<gameState.players; j++){
             if(result[i].head.x===result[j].head.x && result[i].head.y===result[j].head.y){
-                result[i].crashed = true;
-                result[j].crashed = true;
+                model.snakes[i].alive = false;
+                model.snakes[j].alive = false;
             }
         }
     }
 
     model.snakes.forEach((snake, i) => {
-        if(!result[i].crashed){
+        if(snake.alive){
             snake.position.splice(0, 0, result[i].head);
         }
     })
 
     model.snakes.forEach((snake, i) => {
-        if(!result[i].crashed){
+        if(snake.alive){
             placeSnake(snake, i);
         }
     })
 
 
 
-    let listOfCrashes = result.map(s => s.crashed);
+    let listOfCrashes = snake.map(s => s.alive);
     let livingSnakes = 0;
     for(let i=0; i<gameState.players; i++){
-        if(!result[i].crashed){
+        if(snake.alive){
             livingSnakes++;
         }
     }
@@ -168,16 +168,16 @@ function removeTail(snake, i){
 
 function checkCrashWithWall(head){
     if(head.y < 0 || head.y >= gameState.boardSize.height || head.x < 0 || head.x >= gameState.boardSize.width){
-        return(true);
+        return(false);
     }
-    return(false);
+    return(true);
 }
 
 function checkCrashWithSnake(head){
     if(model.board.rows[head.y].cells[head.x].anyBody){
-        return(true);
+        return(false);
     }
-    return(false);
+    return(true);
 }
 
 // Ignores input if it's forward or backward relative to the current direction.
