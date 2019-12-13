@@ -107,14 +107,13 @@ function move(){
 
 
 
-    let listOfCrashes = snake.map(s => s.alive);
+    let listOfLiving = model.snakes.map(s => s.alive);
     let livingSnakes = 0;
     for(let i=0; i<gameState.players; i++){
-        if(snake.alive){
+        if(model.snakes[i].alive){
             livingSnakes++;
         }
     }
-    //console.log(result);
     let colors = ['Blue', 'Green', 'Yellow'];
     for(let i=0; i<gameState.players; i++){
         if(model.snakes[i].size - gameState.startLength >= gameState.winningScore){
@@ -126,7 +125,7 @@ function move(){
     }
     let winner;
     if(livingSnakes===1 && gameState.players>1){
-        winner = listOfCrashes.indexOf(false);
+        winner = listOfLiving.indexOf(true);
         winnerTxt = `${colors[winner]} won!`;
         stopMove();
         return;
