@@ -114,7 +114,7 @@ function move(){
             livingSnakes++;
         }
     }
-    let colors = ['Blue', 'Green', 'Yellow'];
+    let colors = ['Blue', 'Green', 'Yellow', 'Purple'];
     for(let i=0; i<gameState.players; i++){
         if(model.snakes[i].size - gameState.startLength >= gameState.winningScore){
             winnerTxt = gameState.players>1 ? `${colors[i]} won!` : `You Won!`;

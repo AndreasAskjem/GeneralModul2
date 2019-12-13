@@ -1,7 +1,7 @@
 tr, td{
     border: 0px solid lightgray;
     height: 30px;
-    width: 100%;
+    width: 30px;
     user-select: none;
 }
 
@@ -32,6 +32,12 @@ table{
 .snakeBody2{
     background-color: yellow;
 }
+.snakeHead3{
+    background-color: purple;
+}
+.snakeBody3{
+    background-color: fuchsia;
+}
 
 .apple{
     background-color: red;
@@ -60,7 +66,7 @@ table{
 #winner{
     float: left;
     height: 30px;
-    width: 200px;
+    width: 160px;
     font-size: 25px;
     font-weight: bold;
     border: 5px solid white;

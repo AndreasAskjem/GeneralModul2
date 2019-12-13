@@ -65,6 +65,16 @@ function initSnakePosition(index){
         snake.direction     = {y: 1, x: 0};
         snake.nextDirection = {y: 1, x: 0};
     }
+    
+    if(index===3){
+        let startWidth = Math.ceil(width/4);
+        for(i=height-snake.size; i<height; i++){
+            snake.position.push({y: i, x: startWidth});
+        }
+        snake.direction     = {y: -1, x: 0};
+        snake.nextDirection = {y: -1, x: 0};
+    }
+    
     snake.player = index;
     model.snakes.push(snake);
 }

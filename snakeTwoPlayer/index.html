@@ -11,10 +11,12 @@
 <body onkeydown="return controlSnake(event)">
 <div id="wrapper">
     <div id="game">
-        <div id="overlay" class="hide">
-            <div id="countdown">3</div>
+        <div id="tableDiv">
+            <div id="overlay" class="hide">
+                <div id="countdown">3</div>
+            </div>
+            <table id="snakeTable"></table>
         </div>
-        <table id="snakeTable"></table>
         <div id="score0" class="scoreBox"></div>
         <div id="score1" class="scoreBox"></div>
         <div id="score2" class="scoreBox"></div>
@@ -28,9 +30,7 @@
             <option value="1">1 player</option>
             <option value="2" selected="selected">2 players</option>
             <option value="3">3 players</option>
-            <!--
             <option value="4">4 players</option>
-            -->
         </select>
         <div id="optionText">Level Size:</div>
         <select class="input" onchange="changeSize(this)">
