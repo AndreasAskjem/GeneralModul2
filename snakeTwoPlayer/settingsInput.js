@@ -15,7 +15,7 @@ function startGame(){
 
 function toggleOptions(onOrOff){
     let options = document.getElementById('options').querySelectorAll('.input');
-    options.forEach(option => option.disabled = onOrOff)
+    options.forEach(option => option.disabled = onOrOff);
 }
 
 

@@ -93,7 +93,6 @@ function placeSnake(snake, number){
         y = snake.position[index].y;
         x = snake.position[index].x;
         if(index==0){
-            //console.log(snake.position[0].x, snake.position[0].y)
             model.board.rows[y].cells[x].hasHead = true;
         }
         else{
@@ -172,7 +171,7 @@ function showBoard(){
                 }
             }
             // Helps keep cells square in a narrow window, along with CSS for "td".
-            viewCell.innerHTML = `<div style="min-width:30px"></div>`
+            viewCell.innerHTML = `<div style="min-width:30px"></div>`;
         }
     }
     model.snakes.forEach(updateScore);

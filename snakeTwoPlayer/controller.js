@@ -8,16 +8,16 @@ function controlSnake(e){
 
     let snake0 = model.snakes[0];
     let d0 = snake0.direction;
-    if (e.keyCode == 37 && d0.x != 1) { // left
+    if (e.keyCode == 37 && d0.x != 1) { // left 'Left Arrow'
         snake0.nextDirection = { y: 0, x: -1 };
     }
-    if (e.keyCode == 39 && d0.x != -1) { // right
+    if (e.keyCode == 39 && d0.x != -1) { // right 'Right Arrow'
         snake0.nextDirection = { y: 0, x: 1 };
     }
-    if (e.keyCode == 38 && d0.y != 1) { // up
+    if (e.keyCode == 38 && d0.y != 1) { // up 'Up Arrow'
         snake0.nextDirection = { y: -1, x: 0 };
     }
-    if (e.keyCode == 40 && d0.y != -1) { // down
+    if (e.keyCode == 40 && d0.y != -1) { // down 'Down Arrow'
         snake0.nextDirection = { y: 1, x: 0 };
     }
 
@@ -155,7 +155,7 @@ function ateApple(head, i){
     if(model.board.rows[head.y].cells[head.x].hasApple){
         model.board.rows[head.y].cells[head.x].hasApple = false;
         model.snakes[i].size++;
-        return(true)
+        return(true);
     }
     return(false); 
 }
