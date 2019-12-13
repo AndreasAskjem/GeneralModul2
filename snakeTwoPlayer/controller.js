@@ -97,7 +97,7 @@ function move(){
     let colors = ['Blue', 'Green'];
     for(let i=0; i<gameState.players; i++){
         if(model.snakes[i].size - gameState.startLength >= gameState.winningScore){
-            winnerTxt = `${colors[i]} won!`;
+            winnerTxt = gameState.players>1 ? `${colors[i]} won!` : `You Won!`;
             showBoard();
             stopMove();
             return;
@@ -111,7 +111,7 @@ function move(){
         return;
     }
     else if(livingSnakes===0){
-        winnerTxt = `It's a tie!`;
+        winnerTxt = gameState.players>1 ? `It's a tie!` : `Game Over!`;
         stopMove();
         return;
     }
@@ -159,6 +159,7 @@ function checkCrashWithSnake(head){
     return(false);
 }
 
+// Ignores input if it's forward or backward relative to the current direction.
 function checkDirection(d, nd){ // (direction, nextDirection)
     if(d.x != 0 && nd.x == 0 || d.x == 0 && nd.x != 0){
         return(nd);
