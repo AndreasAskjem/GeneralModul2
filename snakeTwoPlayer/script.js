@@ -38,6 +38,7 @@ function initSnakePosition(index){
     snake = {};
     snake.position = [];
     snake.size = gameState.startLength;
+    snake.alive = true;
     let width = gameState.boardSize.width;
     let height = gameState.boardSize.height;
     if(index===0){
@@ -54,7 +55,15 @@ function initSnakePosition(index){
             snake.position.push({y: startHeight, x: i-1});
         }
         snake.direction     = {y: 0, x: 1};
-        snake.nextDirection = {y: 0, x: 1}
+        snake.nextDirection = {y: 0, x: 1};
+    }
+    if(index===2){
+        let startWidth = Math.floor(width*3/4-1);
+        for(i=snake.size; i>0; i--){
+            snake.position.push({y: i-1, x: startWidth});
+        }
+        snake.direction     = {y: 1, x: 0};
+        snake.nextDirection = {y: 1, x: 0};
     }
     snake.player = index;
     model.snakes.push(snake);

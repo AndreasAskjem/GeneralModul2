@@ -26,22 +26,28 @@ table{
     background-color: lightgreen;
 }
 
+.snakeHead2{
+    background-color: DarkKhaki;
+}
+.snakeBody2{
+    background-color: yellow;
+}
 
 .apple{
     background-color: red;
 }
 
 #score0{
-    border: 5px solid blue
+    border: 5px solid blue;
 }
 #score1{
-    border: 5px solid green
+    border: 5px solid green;
 }
 #score2{
-    border: 5px solid DarkKhaki
+    border: 5px solid DarkKhaki;
 }
 #score3{
-    border: 5px solid purple
+    border: 5px solid purple;
 }
 .scoreBox{
     width: 30px;

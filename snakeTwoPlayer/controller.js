@@ -6,35 +6,56 @@ function controlSnake(e){
         return;
     }
 
-    d0 = model.snakes[0].direction;
+    let snake0 = model.snakes[0];
+    let d0 = snake0.direction;
     if (e.keyCode == 37 && d0.x != 1) { // left
-        model.snakes[0].nextDirection = { y: 0, x: -1 };
+        snake0.nextDirection = { y: 0, x: -1 };
     }
     if (e.keyCode == 39 && d0.x != -1) { // right
-        model.snakes[0].nextDirection = { y: 0, x: 1 };
+        snake0.nextDirection = { y: 0, x: 1 };
     }
     if (e.keyCode == 38 && d0.y != 1) { // up
-        model.snakes[0].nextDirection = { y: -1, x: 0 };
+        snake0.nextDirection = { y: -1, x: 0 };
     }
     if (e.keyCode == 40 && d0.y != -1) { // down
-        model.snakes[0].nextDirection = { y: 1, x: 0 };
+        snake0.nextDirection = { y: 1, x: 0 };
     }
 
     try{
-        d1 = model.snakes[1].direction;
-        if (e.keyCode == 65 && d1.x != 1) { // left
-            model.snakes[1].nextDirection = { y: 0, x: -1 };
+        snake1 = model.snakes[1];
+        let d1 = snake1.direction;
+        if (e.keyCode == 65 && d1.x != 1) { // left 'A'
+            snake1.nextDirection = { y: 0, x: -1 };
         }
-        if (e.keyCode == 68 && d1.x != -1) { // right
-            model.snakes[1].nextDirection = { y: 0, x: 1 };
+        if (e.keyCode == 68 && d1.x != -1) { // right 'D'
+            snake1.nextDirection = { y: 0, x: 1 };
         }
-        if (e.keyCode == 87 && d1.y != 1) { // up
-            model.snakes[1].nextDirection = { y: -1, x: 0 };
+        if (e.keyCode == 87 && d1.y != 1) { // up 'W'
+            snake1.nextDirection = { y: -1, x: 0 };
         }
-        if (e.keyCode == 83 && d1.y != -1) { // down
-            model.snakes[1].nextDirection = { y: 1, x: 0 };
+        if (e.keyCode == 83 && d1.y != -1) { // down 'S'
+            snake1.nextDirection = { y: 1, x: 0 };
         }
     } catch{return}
+
+    
+    try{
+        let snake2 = model.snakes[2];
+        let d2 = snake2.direction;
+        if (e.keyCode == 76 && d2.x != 1) { // left 'L'
+            snake2.nextDirection = { y: 0, x: -1 };
+        }
+        if (e.keyCode == 222 && d2.x != -1) { // right 'Æ'
+            snake2.nextDirection = { y: 0, x: 1 };
+        }
+        if (e.keyCode == 80 && d2.y != 1) { // up 'P'
+            snake2.nextDirection = { y: -1, x: 0 };
+        }
+        if (e.keyCode == 192 && d2.y != -1) { // down 'Ø'
+            snake2.nextDirection = { y: 1, x: 0 };
+        }
+    } catch{return}
+    
 }
 
 
@@ -94,7 +115,7 @@ function move(){
         }
     }
     //console.log(result);
-    let colors = ['Blue', 'Green'];
+    let colors = ['Blue', 'Green', 'Yellow'];
     for(let i=0; i<gameState.players; i++){
         if(model.snakes[i].size - gameState.startLength >= gameState.winningScore){
             winnerTxt = gameState.players>1 ? `${colors[i]} won!` : `You Won!`;
