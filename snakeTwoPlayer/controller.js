@@ -82,6 +82,7 @@ function move(){
         if(snake.alive){
             result[i] = {};
             result[i].head = nextHeadPosition(snake);
+            //result[i].crashedThisTurn = checkCrashWithWall(result[i].head, i);
             snake.alive = checkCrashWithWall(result[i].head, i);
         }
     })
@@ -99,6 +100,7 @@ function move(){
     })
     model.snakes.forEach((snake, i) => {
         if(snake.alive){
+            //result[i].crashedThisTurn = checkCrashWithSnake(result[i].head, i);
             snake.alive = checkCrashWithSnake(result[i].head, i);
         }
     })
@@ -107,12 +109,23 @@ function move(){
         for(let j=i+1; j<gameState.players; j++){
             if(model.snakes[i].alive && model.snakes[j].alive){
                 if(result[i].head.x===result[j].head.x && result[i].head.y===result[j].head.y){
+                    //result[i].crashedThisTurn = true;
+                    //result[j].crashedThisTurn = true;
                     model.snakes[i].alive = false;
                     model.snakes[j].alive = false;
                 }
             }
         }
     }
+
+    /*
+    result.forEach((res, i) => {
+        if(res.crashedThisTurn){
+            model.snakes[i].alive = false;
+            removeSnake(model.snakes[i], i);
+        }
+    })
+    */
 
     model.snakes.forEach((snake, i) => {
         if(snake.alive){
@@ -158,8 +171,8 @@ function move(){
     }
 
 
-    result.forEach(s => {
-        if(s.ateApple && s.alive){placeApple()}
+    result.forEach((snake, i) => {
+        if(snake.ateApple && model.snakes[i].alive){placeApple()}
         else{return}
     })
     showBoard();
