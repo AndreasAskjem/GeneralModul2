@@ -12,7 +12,7 @@ let gameState = {
     winningScore: 20,
     numberOfApples: 1,
     speed: 400,
-    running: 'no'
+    running: false
 }
 let gameTick;
 let boardView = document.getElementById('snakeTable');
@@ -22,7 +22,7 @@ initNewGame();
 function initNewGame(){
     initBoard();
     model.snakes = [];
-    gameState.running = 'no';
+    gameState.running = false;
     for(let i=0; i<gameState.players; i++){
         initSnakePosition(i);
     }
@@ -37,13 +37,14 @@ function initNewGame(){
 function initSnakePosition(index){
     snake = {};
     snake.position = [];
-    snake.size = gameState.startLength;
+    snake.points = 0;
+    let size = gameState.startLength;
     snake.alive = true;
     let width = gameState.boardSize.width;
     let height = gameState.boardSize.height;
     if(index===0){
         let startHeight = Math.floor(height*3/4-1);
-        for(i=width-snake.size; i<width; i++){
+        for(i=width-size; i<width; i++){
             snake.position.push({y: startHeight, x: i});
         }
         snake.direction     = {y: 0, x: -1};
@@ -51,7 +52,7 @@ function initSnakePosition(index){
     }
     if(index===1){
         let startHeight = Math.ceil(height/4);
-        for(i=snake.size; i>0; i--){
+        for(i=size; i>0; i--){
             snake.position.push({y: startHeight, x: i-1});
         }
         snake.direction     = {y: 0, x: 1};
@@ -59,7 +60,7 @@ function initSnakePosition(index){
     }
     if(index===2){
         let startWidth = Math.floor(width*3/4-1);
-        for(i=snake.size; i>0; i--){
+        for(i=size; i>0; i--){
             snake.position.push({y: i-1, x: startWidth});
         }
         snake.direction     = {y: 1, x: 0};
@@ -68,7 +69,7 @@ function initSnakePosition(index){
     
     if(index===3){
         let startWidth = Math.ceil(width/4);
-        for(i=height-snake.size; i<height; i++){
+        for(i=height-size; i<height; i++){
             snake.position.push({y: i, x: startWidth});
         }
         snake.direction     = {y: -1, x: 0};
@@ -199,5 +200,5 @@ function showBoard(){
 }
 
 function updateScore(snake, index){
-    document.getElementById(`score${index}`).innerHTML = snake.size - gameState.startLength;
+    document.getElementById(`score${index}`).innerHTML = snake.points;
 }

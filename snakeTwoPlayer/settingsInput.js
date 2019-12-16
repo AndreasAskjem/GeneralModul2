@@ -4,13 +4,13 @@ function startGame(){
     initNewGame();
     
     count = 3;
-    if(gameState.running === 'no'){
-        gameState.running = 'countdown';
+    if(gameState.running === false){
+        gameState.running = null;
         document.getElementById('overlay').classList.remove('hide');
         countdown();
     }
     
-    gameState.running = 'yes';
+    gameState.running = true;
 }
 
 function toggleOptions(onOrOff){
