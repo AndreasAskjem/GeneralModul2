@@ -38,7 +38,6 @@ function controlSnake(e){
         }
     } catch{}
 
-    
     try{
         let snake2 = model.snakes[2];
         let d2 = snake2.direction;
@@ -55,7 +54,23 @@ function controlSnake(e){
             snake2.nextDirection = { y: 1, x: 0 };
         }
     } catch{}
-    
+
+    try{
+        let snake3 = model.snakes[3];
+        let d3 = snake3.direction;
+        if ((e.keyCode == 71 || e.keyCode == 100) && d3.x != 1) { // left 'G' or '4' (numpad)
+            snake3.nextDirection = { y: 0, x: -1 };
+        }
+        if ((e.keyCode == 74 || e.keyCode == 102) && d3.x != -1) { // right 'J' or '6' (numpad)
+            snake3.nextDirection = { y: 0, x: 1 };
+        }
+        if ((e.keyCode == 89 || e.keyCode == 104) && d3.y != 1) { // up 'Y' or '8' (numpad)
+            snake3.nextDirection = { y: -1, x: 0 };
+        }
+        if ((e.keyCode == 72 || e.keyCode == 101) && d3.y != -1) { // down 'H' or '5' (numpad)
+            snake3.nextDirection = { y: 1, x: 0 };
+        }
+    } catch{}
 }
 
 
