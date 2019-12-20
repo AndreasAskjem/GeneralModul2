@@ -82,12 +82,17 @@ function move(){
         if(snake.alive){
             result[i] = {};
             result[i].head = nextHeadPosition(snake);
-            //result[i].crashedThisTurn = checkCrashWithWall(result[i].head, i);
-            snake.alive = checkCrashWithWall(result[i].head, i);
+            result[i].crashedThisTurn = checkCrashWithWall(result[i].head, i);
+            //snake.alive = checkCrashWithWall(result[i].head, i);
+        }
+        else{
+            try{
+                result[i].crashedThisTurn = false;
+            } catch{}
         }
     })
     model.snakes.forEach((snake, i) => {
-        if(snake.alive){
+        if(snake.alive && !result[i].crashedThisTurn){
             result[i].ateApple = ateApple(result[i].head, i);
         }
     })
@@ -99,34 +104,35 @@ function move(){
         }
     })
     model.snakes.forEach((snake, i) => {
-        if(snake.alive){
-            //result[i].crashedThisTurn = checkCrashWithSnake(result[i].head, i);
-            snake.alive = checkCrashWithSnake(result[i].head, i);
+        if(snake.alive && !result[i].crashedThisTurn){
+            result[i].crashedThisTurn = checkCrashWithSnake(result[i].head, i);
+            //snake.alive = checkCrashWithSnake(result[i].head, i);
         }
     })
 
+    // Checks for cases where 2 snake heads move into the same cell.
     for(let i=0; i<gameState.players-1; i++){
         for(let j=i+1; j<gameState.players; j++){
             if(model.snakes[i].alive && model.snakes[j].alive){
                 if(result[i].head.x===result[j].head.x && result[i].head.y===result[j].head.y){
-                    //result[i].crashedThisTurn = true;
-                    //result[j].crashedThisTurn = true;
-                    model.snakes[i].alive = false;
-                    model.snakes[j].alive = false;
+                    result[i].crashedThisTurn = true;
+                    result[j].crashedThisTurn = true;
+                    //model.snakes[i].alive = false;
+                    //model.snakes[j].alive = false;
                 }
             }
         }
     }
 
-    /*
+    
     result.forEach((res, i) => {
         if(res.crashedThisTurn){
             model.snakes[i].alive = false;
             removeSnake(model.snakes[i], i);
         }
     })
-    */
 
+    // Puts in the new head position
     model.snakes.forEach((snake, i) => {
         if(snake.alive){
             snake.position.splice(0, 0, result[i].head);
@@ -204,18 +210,18 @@ function removeTail(snake, i){
 
 function checkCrashWithWall(head, i){
     if(head.y < 0 || head.y >= gameState.boardSize.height || head.x < 0 || head.x >= gameState.boardSize.width){
-        removeSnake(model.snakes[i]);
-        return(false);
+        //removeSnake(model.snakes[i]);
+        return(true);
     }
-    return(true);
+    return(false);
 }
 
 function checkCrashWithSnake(head, i){
     if(model.board.rows[head.y].cells[head.x].anyBody){
-        removeSnake(model.snakes[i]);
-        return(false);
+        //removeSnake(model.snakes[i]);
+        return(true);
     }
-    return(true);
+    return(false);
 }
 
 // Ignores input if it's forward or backward relative to the current direction.
