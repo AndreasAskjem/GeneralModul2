@@ -152,7 +152,7 @@ function aboveAppleLimit(){
         }
     }
     let appleOrEmpty = emptyCells + placedApples;
-    if(placedApples/appleOrEmpty > maxFractionOfApples){
+    if(placedApples/appleOrEmpty > maxFractionOfApples || placedApples === appleOrEmpty){
         return(true);
     }
     return(false);
