@@ -2,7 +2,6 @@ function controlSnake(e){
     if(e.keyCode == 13 && gameState.running == false){ // Enter
         stopMove();
         startGame();
-        //initNewGame();
         return;
     }
 
@@ -83,7 +82,6 @@ function move(){
             result[i] = {};
             result[i].head = nextHeadPosition(snake);
             result[i].crashedThisTurn = checkCrashWithWall(result[i].head, i);
-            //snake.alive = checkCrashWithWall(result[i].head, i);
         }
         else{
             try{
@@ -106,7 +104,6 @@ function move(){
     model.snakes.forEach((snake, i) => {
         if(snake.alive && !result[i].crashedThisTurn){
             result[i].crashedThisTurn = checkCrashWithSnake(result[i].head, i);
-            //snake.alive = checkCrashWithSnake(result[i].head, i);
         }
     })
 
@@ -117,8 +114,6 @@ function move(){
                 if(result[i].head.x===result[j].head.x && result[i].head.y===result[j].head.y){
                     result[i].crashedThisTurn = true;
                     result[j].crashedThisTurn = true;
-                    //model.snakes[i].alive = false;
-                    //model.snakes[j].alive = false;
                 }
             }
         }
@@ -144,7 +139,6 @@ function move(){
             placeSnake(snake, i);
         }
     })
-
 
 
     let listOfLiving = model.snakes.map(s => s.alive);
@@ -210,7 +204,6 @@ function removeTail(snake, i){
 
 function checkCrashWithWall(head, i){
     if(head.y < 0 || head.y >= gameState.boardSize.height || head.x < 0 || head.x >= gameState.boardSize.width){
-        //removeSnake(model.snakes[i]);
         return(true);
     }
     return(false);
@@ -218,7 +211,6 @@ function checkCrashWithWall(head, i){
 
 function checkCrashWithSnake(head, i){
     if(model.board.rows[head.y].cells[head.x].anyBody){
-        //removeSnake(model.snakes[i]);
         return(true);
     }
     return(false);
